@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31320.298
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewRelic.Blazor.ServerSide.TestApp", "NewRelic.Blazor.ServerSide.TestApp\NewRelic.Blazor.ServerSide.TestApp.csproj", "{DA073FE4-E728-4803-9893-B867591927EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA073FE4-E728-4803-9893-B867591927EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA073FE4-E728-4803-9893-B867591927EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA073FE4-E728-4803-9893-B867591927EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA073FE4-E728-4803-9893-B867591927EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F05BA2B0-590D-46C3-88F1-3481BBECC829}
+	EndGlobalSection
+EndGlobal
