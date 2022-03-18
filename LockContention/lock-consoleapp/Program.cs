@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using shared_remoting_lib;
+using System;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Security.Permissions;
-using shared_remoting_lib;
 
 namespace lock_consoleapp
 {
-    internal class Program
+	internal class Program
     {
         [SecurityPermission(SecurityAction.Demand)]
         public static void Main(string[] args)
