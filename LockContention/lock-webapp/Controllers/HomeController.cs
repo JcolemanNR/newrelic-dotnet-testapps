@@ -2,18 +2,20 @@
 using shared_remoting_lib;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Text;
 using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 
 namespace lock_webapp.Controllers
 {
-    public class HomeController : Controller
+	public class HomeController : Controller
     {
+        private static PerformanceCounter _currentLogicalThreads = new PerformanceCounter(".NET CLR LocksAndThreads", "# of current logical Threads", "w3wp");
+        private static PerformanceCounter _contentionRatePerSecond = new PerformanceCounter(".NET CLR LocksAndThreads", "Contention Rate / sec", "w3wp");
+
         public ActionResult Index()
         {
             return View();
@@ -44,7 +46,7 @@ namespace lock_webapp.Controllers
 
             result.ContentType = "text";
             result.Content = InstrumentedMethod(0, depth);
-
+            TrySendEvent(nameof(Test));
             return View();
         }
 
@@ -88,6 +90,7 @@ namespace lock_webapp.Controllers
 
         public ActionResult ThrowException()
         {
+            TrySendEvent(nameof(ThrowException));
             throw new Exception("OH NO!!!!");
 
             return View();
@@ -101,7 +104,7 @@ namespace lock_webapp.Controllers
             RemoteObject service = new RemoteObject();
 
             ViewBag.Message = $"The remote object has been called {service.GetCount()} times.";
-
+            TrySendEvent(nameof(DoIpcStuff));
             return View();
         }
 
@@ -113,7 +116,7 @@ namespace lock_webapp.Controllers
             RemoteObject service = new RemoteObject();
 
             ViewBag.Message = $"The remote object has been called, and returned message: {service.CreateFailedDbConnection()} times.";
-
+            TrySendEvent(nameof(CreateFailedDbConnectionViaIPC));
             return View();
         }
 
@@ -134,5 +137,19 @@ namespace lock_webapp.Controllers
             return sbResult.ToString();
         }
 
+        private void TrySendEvent(string name)
+        {
+            var data = new Dictionary<string, object>
+            {
+                { "MethodName", name},
+                { "CurrentLogicalThreads", _currentLogicalThreads.NextValue()},
+                { "ContentionRatePerSecond", _contentionRatePerSecond.NextValue()}
+            };
+
+            if (Convert.ToDouble(data["ContentionRatePerSecond"]) != 0)
+            {
+                NewRelic.Api.Agent.NewRelic.RecordCustomEvent("perfmon", data);
+            }
+        }
     }
 }
