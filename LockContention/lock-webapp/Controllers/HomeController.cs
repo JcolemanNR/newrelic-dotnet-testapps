@@ -105,6 +105,18 @@ namespace lock_webapp.Controllers
             return View();
         }
 
+        public ActionResult CreateFailedDbConnectionViaIPC()
+        {
+            InitializeRemoting();
+
+            // Create an instance of the remote object.
+            RemoteObject service = new RemoteObject();
+
+            ViewBag.Message = $"The remote object has been called, and returned message: {service.CreateFailedDbConnection()} times.";
+
+            return View();
+        }
+
         [Transaction]
         [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         static string InstrumentedMethod(int level, int maxLevel)
